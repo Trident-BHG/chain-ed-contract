@@ -7,7 +7,7 @@ async function main() {
     "Transferring ownership of Certificate NFT contract to Destination Minter..."
   );
   const transactionResponse = await certificate.transferOwnership(
-    "0x1E66B4c51eeA2D943247F4c52dDD93B34e4Cd96d"
+    "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
   );
   await transactionResponse.wait(1);
   console.log("Ownership Transferred");
