@@ -9,14 +9,6 @@ import "hardhat/console.sol";
 contract SourceMinter {
     address immutable i_router;
     address immutable i_link;
-
-    uint64 constant destinationChainSelector = 16015286601757825753; //Arbitrum Testnet
-    address constant destinationChainContract =
-        0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1;
-    address constant receiverNFTContract =
-        0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512; // nft receiver address
-    string constant tokenURI =
-        "https://ipfs.io/ipfs/QmaCuUhPUkEoennHXFwijiYRueD2DYiH6waZ7DqKR1MGcG";
     event MessageSent(bytes32 messageId);
 
     constructor(address router, address link) {
@@ -27,14 +19,19 @@ contract SourceMinter {
 
     receive() external payable {}
 
-    function mint() external {
+    function mint(
+        uint64 destinationChainSelector,
+        address destinationChainContract,
+        address receiverStudentAddress,
+        string memory tokenURI
+    ) external {
         console.log("Calling Mint Function");
         console.log("Creating EVM2 message");
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(destinationChainContract),
             data: abi.encodeWithSignature(
-                "mint(address, tokenURI)",
-                receiverNFTContract,
+                "mint(address,string)",
+                receiverStudentAddress,
                 tokenURI
             ),
             tokenAmounts: new Client.EVMTokenAmount[](0),

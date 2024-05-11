@@ -1,4 +1,3 @@
-//0xec281F0c7cA70b10bd2B8A11d280a8F381003283
 // const {
 //   networkConfig,
 //   developmentChains,

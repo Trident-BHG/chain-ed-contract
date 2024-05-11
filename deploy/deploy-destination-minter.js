@@ -1,9 +1,11 @@
-//0x1E66B4c51eeA2D943247F4c52dDD93B34e4Cd96d
 // const {
 //   networkConfig,
 //   developmentChains,
 // } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
+const {
+  getDeployedNFTContractAddress,
+} = require("../scripts/get-nft-contract-address");
 // const { verify } = require("../utils/verify");
 require("dotenv").config();
 
@@ -11,8 +13,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
-  const router = "0x1E01182454073691d6190FC0F977cB7D646981E1";
-  const nftAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  const router = process.env.CCIP_ROUTER_ARBITRUM; //router address on destination chain
+  const nftAddress = getDeployedNFTContractAddress(); //nft address on destination chain
   // let priceFeedAddress;
   // if (developmentChains.includes(network.name)) {
   //   const priceFeedAggregator = await deployments.get("MockV3Aggregator");
