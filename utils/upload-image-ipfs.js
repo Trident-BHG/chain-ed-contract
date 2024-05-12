@@ -11,14 +11,19 @@ const metadataTemplate = {
   image: "",
 };
 
-async function main() {
+module.exports = async function uploadCertificateToIpfs(
+  certificateFilename,
+  studentName,
+  courseName,
+  instructorName
+) {
   console.log("Uploading Image to IPFS...");
   const readableStreamForFile = fs.createReadStream(
-    path.resolve("./assets/test-cert.png")
+    path.resolve(certificateFilename)
   );
   const imageoptions = {
     pinataMetadata: {
-      name: "test-cert.png",
+      name: studentName + courseName,
     },
   };
   const imageUploadResponse = await pinata.pinFileToIPFS(
@@ -28,8 +33,8 @@ async function main() {
   console.log("Successfully Uploaded Image to IPFS");
   console.log("Uploading metadata to IPFS...");
   let imageMetadata = { ...metadataTemplate };
-  imageMetadata.name = "Test Certificate";
-  imageMetadata.description = "Using test certificate image";
+  imageMetadata.name = studentName + "certificate for" + courseName;
+  imageMetadata.description = studentName + courseName + instructorName;
   imageMetadata.image = `ipfs://${imageUploadResponse.IpfsHash}`;
   const metadataOptions = {
     pinataMetadata: {
@@ -44,11 +49,6 @@ async function main() {
 
   const tokenUri = `ipfs://${imageMetadataUploadResponse.IpfsHash}`;
   console.log(tokenUri);
-}
-
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.log(error);
-    process.exit(1);
-  });
+  console.log("Successfully uploaded image to IPFS!!");
+  return tokenUri;
+};
