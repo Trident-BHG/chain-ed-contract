@@ -8,9 +8,7 @@ import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interface
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 import "hardhat/console.sol";
 
-error Certificate__NotDestinationMinter();
-
-contract Certificate is
+contract CertificateSepolia is
     ERC721URIStorage,
     VRFV2PlusWrapperConsumerBase,
     Ownable
@@ -47,7 +45,6 @@ contract Certificate is
     uint32 constant numWords = 1;
     address immutable i_wrapperAddress;
     address immutable i_linkAddress;
-    address destinationMinterAddress;
 
     uint256 internal tokenId;
     uint256 maxSupplyOfToken = 3000;
@@ -170,10 +167,7 @@ contract Certificate is
         return (request.paid, request.fulfilled, request.randomWords);
     }
 
-    function mint(
-        address to,
-        string memory _tokenURI
-    ) public onlyDestinationMinter {
+    function mint(address to, string memory _tokenURI) public onlyOwner {
         console.log("Reached mint function in Certificate contract");
         uint256 requestId = requestRandomWords();
         console.log("Got the VRF Request Id");
@@ -182,19 +176,6 @@ contract Certificate is
             tokenURI: _tokenURI
         });
         console.log("Waiting for random number to be returned.");
-    }
-
-    modifier onlyDestinationMinter() {
-        if (msg.sender != destinationMinterAddress) {
-            revert Certificate__NotDestinationMinter();
-        }
-        _;
-    }
-
-    function setDestinationMinterAddress(
-        address _destinationMinterAddress
-    ) external onlyOwner {
-        destinationMinterAddress = _destinationMinterAddress;
     }
 
     function withdrawLink() external onlyOwner {

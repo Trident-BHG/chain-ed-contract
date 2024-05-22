@@ -4,12 +4,14 @@ pragma solidity 0.8.24;
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
 import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
-contract SourceMinter {
+contract SourceMinter is Ownable {
+    event MessageSent(bytes32 messageId);
     address immutable i_router;
     address immutable i_link;
-    event MessageSent(bytes32 messageId);
+    uint256 public ccipGasLimit = 400000;
 
     constructor(address router, address link) {
         i_router = router;
@@ -24,7 +26,7 @@ contract SourceMinter {
         address destinationChainContract,
         address receiverStudentAddress,
         string memory tokenURI
-    ) external {
+    ) external onlyOwner {
         console.log("Calling Mint Function");
         console.log("Creating EVM2 message");
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
@@ -35,7 +37,9 @@ contract SourceMinter {
                 tokenURI
             ),
             tokenAmounts: new Client.EVMTokenAmount[](0),
-            extraArgs: "",
+            extraArgs: Client._argsToBytes(
+                Client.EVMExtraArgsV1({gasLimit: ccipGasLimit})
+            ),
             feeToken: address(0)
         });
 
@@ -66,5 +70,13 @@ contract SourceMinter {
         console.log("Got message Id");
 
         emit MessageSent(messageId);
+    }
+
+    function getCcipGasLimit() public view returns (uint256) {
+        return ccipGasLimit;
+    }
+
+    function setCcipGasLimit(uint256 gasLimit) public onlyOwner {
+        ccipGasLimit = gasLimit;
     }
 }

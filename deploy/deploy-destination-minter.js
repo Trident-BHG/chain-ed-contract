@@ -3,9 +3,9 @@
 //   developmentChains,
 // } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
-const {
-  getDeployedNFTContractAddress,
-} = require("../scripts/get-nft-contract-address");
+// const {
+//   getDeployedNFTContractAddress,
+// } = require("../utils/get-nft-contract-address");
 // const { verify } = require("../utils/verify");
 require("dotenv").config();
 
@@ -14,7 +14,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
   const router = process.env.CCIP_ROUTER_ARBITRUM; //router address on destination chain
-  const nftAddress = getDeployedNFTContractAddress(); //nft address on destination chain
+  // /const nftAddress = getDeployedNFTContractAddress(); //nft address on destination chain
   // let priceFeedAddress;
   // if (developmentChains.includes(network.name)) {
   //   const priceFeedAggregator = await deployments.get("MockV3Aggregator");
@@ -26,7 +26,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("----------------------------------------------------");
   log("Deploying Destination Minter and waiting for confirmations...");
 
-  const args = [router, nftAddress];
+  const args = [router];
   const destinationMinter = await deploy("DestinationMinter", {
     from: deployer,
     args: args,
@@ -49,3 +49,5 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 };
 
 module.exports.tags = ["all", "destination-mint"];
+
+//0x5367990A2749E4008F7377cCb3A0f8c4ABA90d52

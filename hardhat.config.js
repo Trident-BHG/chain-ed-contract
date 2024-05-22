@@ -13,7 +13,6 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545/",
-      gas: 3000000,
     },
     sepolia: {
       url: SEPOLIA_RPC_URL,

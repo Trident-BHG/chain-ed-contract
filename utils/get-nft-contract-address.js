@@ -9,8 +9,10 @@ const getDeployedNFTContractAddress =
     console.log(`Certificate NFT is deployed at ${nftAddress}`);
   };
 
-module.exports = {
-  getDeployedNFTContractAddress,
-};
+getDeployedNFTContractAddress();
+
+// module.exports = {
+//   getDeployedNFTContractAddress,
+// };
 
 //npx hardhat run utils/get-nft-contract-address.js --network arbitrum
