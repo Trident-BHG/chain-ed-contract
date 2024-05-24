@@ -31,3 +31,7 @@ Deployment Steps for NFT Creation Contracts(on Sepolia, which is our main chain)
    b. In .env file add the following values(Make sure to provide them correctly): SEPOLIA_VRF_LINK_ADDRESS, SEPOLIA_VRF_WRAPPER_ADDRESS
    c. Run the following command to deploy: npx hardhat deploy --tags cert-sepolia --network sepolia
    d. Note down the address of the deployed contract
+
+Local Testing
+
+1. npx hardhat node --no-deploy

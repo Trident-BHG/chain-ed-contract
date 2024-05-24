@@ -1,25 +1,26 @@
-// const {
-//   networkConfig,
-//   developmentChains,
-// } = require("../helper-hardhat-config");
+const { developmentChains } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
 // const { verify } = require("../utils/verify");
 require("dotenv").config();
+const {
+  getCCIPLocalConfig,
+} = require("../scripts/ccip-local-simulator-config");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
-  const router = process.env.CCIP_ROUTER_SEPOLIA;
-  const link = process.env.CCIP_LINK_SEPOLIA;
+  let router;
+  let link;
 
   const chainId = network.config.chainId;
-  // let priceFeedAddress;
-  // if (developmentChains.includes(network.name)) {
-  //   const priceFeedAggregator = await deployments.get("MockV3Aggregator");
-  //   priceFeedAddress = priceFeedAggregator.address;
-  // } else {
-  //   priceFeedAddress = networkConfig[chainId].ethToUSDPriceFeed;
-  // }
+  if (developmentChains.includes(network.name)) {
+    const ccipConfig = await getCCIPLocalConfig();
+    router = ccipConfig[1];
+    link = ccipConfig[4];
+  } else {
+    router = process.env.CCIP_ROUTER_SEPOLIA;
+    link = process.env.CCIP_LINK_SEPOLIA;
+  }
 
   log("----------------------------------------------------");
   log("Deploying Source Minter and waiting for confirmations...");

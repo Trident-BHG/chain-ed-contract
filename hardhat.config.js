@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-ethers");
+require("@nomicfoundation/hardhat-chai-matchers");
 require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 require("dotenv").config();
@@ -8,7 +9,22 @@ const ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL;
 const ARBITRUM_PRIVATE_KEY = process.env.ARBITRUM_PRIVATE_KEY;
 
 module.exports = {
-  solidity: "0.8.24",
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.24",
+      },
+      {
+        version: "0.8.19",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000,
+          },
+        },
+      },
+    ],
+  },
   defaultNetwork: "hardhat",
   networks: {
     localhost: {

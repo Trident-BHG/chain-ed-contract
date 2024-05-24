@@ -47,14 +47,11 @@ contract SourceMinter is Ownable {
 
         console.log("Trying to get fee for ccip...");
 
-        console.log(
-            IRouterClient(i_router).getFee(destinationChainSelector, message)
-        );
-
         uint256 fee = IRouterClient(i_router).getFee(
             destinationChainSelector,
             message
         );
+        console.log(fee);
 
         console.log("Got the fee for ccip:");
 
@@ -78,5 +75,18 @@ contract SourceMinter is Ownable {
 
     function setCcipGasLimit(uint256 gasLimit) public onlyOwner {
         ccipGasLimit = gasLimit;
+    }
+
+    function getRouter() public view returns (address) {
+        return i_router;
+    }
+
+    function getLink() public view returns (address) {
+        return i_link;
+    }
+
+    function withdrawEther() external onlyOwner {
+        address payable to = payable(msg.sender);
+        to.transfer(address(this).balance);
     }
 }

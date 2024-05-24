@@ -1,7 +1,4 @@
-// const {
-//   networkConfig,
-//   developmentChains,
-// } = require("../helper-hardhat-config");
+const { developmentChains } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
 // const { verify } = require("../utils/verify");
 require("dotenv").config();
@@ -10,15 +7,17 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
-  const _wrapperAddress = process.env.ARBITRUM_VRF_WRAPPER_ADDRESS;
-  const _linkAddress = process.env.ARBITRUM_VRF_LINK_ADDRESS;
-  // let priceFeedAddress;
-  // if (developmentChains.includes(network.name)) {
-  //   const priceFeedAggregator = await deployments.get("MockV3Aggregator");
-  //   priceFeedAddress = priceFeedAggregator.address;
-  // } else {
-  //   priceFeedAddress = networkConfig[chainId].ethToUSDPriceFeed;
-  // }
+  let _wrapperAddress;
+  let _linkAddress;
+  if (developmentChains.includes(network.name)) {
+    const wrapper = await deployments.get("VRFV2PlusWrapper");
+    _wrapperAddress = wrapper.address;
+    const link = await deployments.get("LinkToken");
+    _linkAddress = link.address;
+  } else {
+    _wrapperAddress = process.env.ARBITRUM_VRF_WRAPPER_ADDRESS;
+    _linkAddress = process.env.ARBITRUM_VRF_LINK_ADDRESS;
+  }
 
   log("----------------------------------------------------");
   log("Deploying Certificate and waiting for confirmations...");

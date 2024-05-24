@@ -1,14 +1,16 @@
 const { ethers, getNamedAccounts } = require("hardhat");
 
-async function main() {
+const getCCIPLocalConfig = async function getCCIPLocalConfig() {
   const { deployer } = await getNamedAccounts();
   const ccipLocal = await ethers.getContract("CCIPLocalSimulator", deployer);
   console.log("Getting config from CCIP Local Simulator...");
   const transactionResponse = await ccipLocal.configuration();
-  console.log(transactionResponse);
-}
+  return transactionResponse;
+};
 
-main();
+module.exports = {
+  getCCIPLocalConfig,
+};
 
 // 16015286601757825753n,                           chainSelector_
 //   "0x1E01182454073691d6190FC0F977cB7D646981E1",  sourceRouter_

@@ -1,27 +1,26 @@
-// const {
-//   networkConfig,
-//   developmentChains,
-// } = require("../helper-hardhat-config");
+const { developmentChains } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
 // const {
 //   getDeployedNFTContractAddress,
 // } = require("../utils/get-nft-contract-address");
 // const { verify } = require("../utils/verify");
 require("dotenv").config();
+const {
+  getCCIPLocalConfig,
+} = require("../scripts/ccip-local-simulator-config");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
-  const router = process.env.CCIP_ROUTER_ARBITRUM; //router address on destination chain
+  let router; //router address on destination chain or destination router
   // /const nftAddress = getDeployedNFTContractAddress(); //nft address on destination chain
-  // let priceFeedAddress;
-  // if (developmentChains.includes(network.name)) {
-  //   const priceFeedAggregator = await deployments.get("MockV3Aggregator");
-  //   priceFeedAddress = priceFeedAggregator.address;
-  // } else {
-  //   priceFeedAddress = networkConfig[chainId].ethToUSDPriceFeed;
-  // }
+  if (developmentChains.includes(network.name)) {
+    const ccipConfig = await getCCIPLocalConfig();
+    router = ccipConfig[2];
+  } else {
+    router = process.env.CCIP_ROUTER_ARBITRUM;
+  }
 
   log("----------------------------------------------------");
   log("Deploying Destination Minter and waiting for confirmations...");
