@@ -2,9 +2,9 @@ const { ethers, getNamedAccounts } = require("hardhat");
 
 async function main() {
   const { deployer } = await getNamedAccounts();
-  const certificate = await ethers.getContract("Certificate", deployer);
+  const certificate = await ethers.getContract("CertificateSepolia", deployer);
   console.log("Setting callback gas limit on Certificate Contract...");
-  const transactionResponse = await certificate.setCallbackGasLimit(400000);
+  const transactionResponse = await certificate.setCallbackGasLimit(800000);
   await transactionResponse.wait(1);
   console.log("Successfully set callback gas limit");
 }

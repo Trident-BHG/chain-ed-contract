@@ -11,12 +11,21 @@ const { developmentChains } = require("../../helper-hardhat-config");
 !developmentChains.includes(network.name)
   ? describe.skip
   : describe("Source Minter", function () {
+      before(async function () {
+        // await deployments.fixture(["mocks"]);
+      });
       let sourceMinter, ccipContract, destinationMinter, certificate, linkToken;
       let deployer, ccipConfig;
 
       beforeEach(async function () {
         deployer = (await getNamedAccounts()).deployer;
-        await deployments.fixture(["local", "source-mint", "destination-mint"]);
+        await deployments.fixture([
+          "mocks",
+          "local",
+          "source-mint",
+          "destination-mint",
+          "cert",
+        ]);
         const ccipContractDetails = await deployments.get("CCIPLocalSimulator");
         ccipContract = await ethers.getContractAt(
           ccipContractDetails.abi,
@@ -38,11 +47,11 @@ const { developmentChains } = require("../../helper-hardhat-config");
           destinationMinterContractDetails.abi,
           destinationMinterContractDetails.address
         );
-        // const certificateContractDetails = await deployments.get("Certificate");
-        // certificate = await ethers.getContractAt(
-        //   certificateContractDetails.abi,
-        //   certificateContractDetails.address
-        // );
+        const certificateContractDetails = await deployments.get("Certificate");
+        certificate = await ethers.getContractAt(
+          certificateContractDetails.abi,
+          certificateContractDetails.address
+        );
         // await destinationMinter.setNFTAddress(
         //   certificateContractDetails.address
         // );
@@ -73,7 +82,7 @@ const { developmentChains } = require("../../helper-hardhat-config");
             ).to.emit(sourceMinter, "MessageSent");
           });
 
-          xit("should be able to request mint on source chain and reach destination chain", async function () {
+          it("should be able to request mint on source chain and reach destination chain", async function () {
             const to = deployer;
             const tokenURI =
               "https://ipfs.io/ipfs/QmaCuUhPUkEoennHXFwijiYRueD2DYiH6waZ7DqKR1MGcG";

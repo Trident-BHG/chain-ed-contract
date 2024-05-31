@@ -5,7 +5,7 @@ Deployment Steps for NFT Creation Contracts(Cross Chain):
    b. In .env file add the following values(Make sure to provide them correctly): ARBITRUM_VRF_LINK_ADDRESS, ARBITRUM_VRF_WRAPPER_ADDRESS
    c. Run the following command to deploy: npx hardhat deploy --tags cert --network arbitrum
    d. Note down the address of the deployed contract
-2. Fund your Certificate contract with LINK tokens
+2. Fund your Certificate contract with LINK tokens for VRF fees
 3. Deploy Destination Minter.sol on destination Chain(Arbitrum Sepolia)
    a. Run the following command to deploy: npx hardhat deploy --tags destination-mint --network arbitrum
    b. Note down the address of the deployed contract.
@@ -14,9 +14,10 @@ Deployment Steps for NFT Creation Contracts(Cross Chain):
 4. Set Destination Minter Address in Certificate Contract
    a. In scripts/set-destination-minter-address.js, set destinationChainContract address value.
    b. Run the script set-destination-minter-address.js using following command:
-5. Deploy SourceMinter.sol on source chain(Ethereum Sepolia)
+5. Deploy SourceMinter.sol on source chain(Ethereum Sepolia): npx hardhat deploy --tags source-mint --network sepolia
 6. Fund SourceMinter contract with ETH sepolia
 7. In scripts/mint-certificate-nft.js, set "destinationChainContract" address with Destination Minter contract address
+8. Run following command to mint NFT: npx hardhat run scripts/mint-certificate-nft.js --network sepolia
 
 Note:
 

@@ -34,7 +34,7 @@ module.exports = {
       url: SEPOLIA_RPC_URL,
       accounts: [SEPOLIA_PRIVATE_KEY],
       chainId: 11155111,
-      blockConfirmations: 6,
+      blockConfirmations: 3,
     },
     arbitrum: {
       url: ARBITRUM_RPC_URL,

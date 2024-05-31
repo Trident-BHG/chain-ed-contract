@@ -79,49 +79,55 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     );
 
     let subscriptionId;
+    let vrfV2PlusWrapper;
 
-    vrfCoordinator.once("SubscriptionCreated", (id, address) => {
+    vrfCoordinator.once("SubscriptionCreated", async (id, address) => {
       console.log("Subscription Created");
       subscriptionId = id;
-    });
+      vrfV2PlusWrapper = await deploy("VRFV2PlusWrapper", {
+        from: deployer,
+        args: [
+          linkToken.address,
+          mockV3Aggregator.address,
+          vrfCoordinatorV2_5Mock.address,
+          subscriptionId,
+        ],
+        waitConfirmations: 1,
+        log: true,
+        contract: "contracts/test/VRFV2PlusWrapper.sol:VRFV2PlusWrapper",
+      });
+      if (!vrfV2PlusWrapper.newlyDeployed) {
+        log(`VRFV2PlusWrapper already deployed at ${vrfV2PlusWrapper.address}`);
+      } else {
+        log(`VRFV2PlusWrapper newly deployed at ${vrfV2PlusWrapper.address}`);
+      }
+      const wrapper = await ethers.getContract("VRFV2PlusWrapper", deployer);
 
-    await vrfCoordinator.createSubscription();
-
-    const vrfV2PlusWrapper = await deploy("VRFV2PlusWrapper", {
-      from: deployer,
-      args: [
-        linkToken.address,
-        mockV3Aggregator.address,
-        vrfCoordinatorV2_5Mock.address,
+      await wrapper.setConfig(
+        60000,
+        0,
+        52000,
+        0,
+        10,
+        10,
+        "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc",
+        10,
+        0,
+        0,
+        0,
+        0
+      );
+      await vrfCoordinator.fundSubscription(
         subscriptionId,
-      ],
-      waitConfirmations: 1,
-      log: true,
-      contract: "contracts/test/VRFV2PlusWrapper.sol:VRFV2PlusWrapper",
+        "40000000000000000000"
+      );
+      await vrfCoordinator.addConsumer(
+        subscriptionId,
+        vrfV2PlusWrapper.address
+      );
     });
 
-    if (!vrfV2PlusWrapper.newlyDeployed) {
-      log(`VRFV2PlusWrapper already deployed at ${vrfV2PlusWrapper.address}`);
-    } else {
-      log(`VRFV2PlusWrapper newly deployed at ${vrfV2PlusWrapper.address}`);
-    }
-
-    const wrapper = await ethers.getContract("VRFV2PlusWrapper", deployer);
-
-    await wrapper.setConfig(
-      60000,
-      0,
-      52000,
-      0,
-      10,
-      10,
-      "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc",
-      10,
-      0,
-      0,
-      0,
-      0
-    );
+    vrfCoordinator.createSubscription();
 
     // vrfCoordinator.once("SubscriptionFunded", (id, oldBalance, newBalance) => {
     //   console.log("Subscription Funded");
@@ -129,12 +135,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     //   console.log(oldBalance);
     //   console.log(newBalance);
     // });
-    await vrfCoordinator.fundSubscription(
-      subscriptionId,
-      "40000000000000000000"
-    );
-
-    await vrfCoordinator.addConsumer(subscriptionId, vrfV2PlusWrapper.address);
 
     // log("----------------------------------------------------");
     // log("Deploying CCIP Local Simulator and waiting for confirmations...");
