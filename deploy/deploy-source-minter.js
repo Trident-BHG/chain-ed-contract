@@ -1,6 +1,6 @@
 const { developmentChains } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
-// const { verify } = require("../utils/verify");
+const { verify } = require("../utils/verify");
 require("dotenv").config();
 const {
   getCCIPLocalConfig,
@@ -39,12 +39,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log(`Source Minter newly deployed at ${sourceMinter.address}`);
   }
 
-  // if (
-  //   !developmentChains.includes(network.name) &&
-  //   process.env.ETHERSCAN_API_KEY
-  // ) {
-  //   await verify(fundMe.address, args);
-  // }
+  if (
+    !developmentChains.includes(network.name) &&
+    process.env.ETHERSCAN_API_KEY
+  ) {
+    await verify(sourceMinter.address, args);
+  }
 };
 
 module.exports.tags = ["all", "source-mint"];

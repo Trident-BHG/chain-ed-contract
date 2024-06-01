@@ -2,11 +2,13 @@ require("@nomicfoundation/hardhat-ethers");
 require("@nomicfoundation/hardhat-chai-matchers");
 require("hardhat-deploy");
 require("hardhat-deploy-ethers");
+require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
 const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY;
 const ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL;
 const ARBITRUM_PRIVATE_KEY = process.env.ARBITRUM_PRIVATE_KEY;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
 module.exports = {
   solidity: {
@@ -41,6 +43,11 @@ module.exports = {
       accounts: [SEPOLIA_PRIVATE_KEY, ARBITRUM_PRIVATE_KEY],
       chainId: 421614,
       blockConfirmations: 6,
+    },
+  },
+  etherscan: {
+    apiKey: {
+      sepolia: ETHERSCAN_API_KEY,
     },
   },
   namedAccounts: {
