@@ -1,14 +1,10 @@
 <a name="readme-top"></a>
 
-<!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://github.com/Trident-BHG/chain-ed-contract">
-    <img src="assets/logo.svg" alt="Logo" width="120" height="120">
+    <img src="assets/logo.svg" alt="Logo" width="140" height=140">
   </a>
-
 <h3 align="center">Chain.ed Contract</h3>
-
   <p align="center">
     Chainlink Block Magic Hackathon Project
     <br />
