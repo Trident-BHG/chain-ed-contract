@@ -2,11 +2,14 @@
   "devDependencies": {
     "@chainlink/contracts": "^1.1.0",
     "@chainlink/contracts-ccip": "^1.4.0",
-    "@chainlink/local": "git+https://github.com/smartcontractkit/chainlink-local.git",
+    "@chainlink/local": "github:smartcontractkit/chainlink-local",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
     "@nomicfoundation/hardhat-ethers": "^3.0.5",
     "@pinata/sdk": "^2.1.0",
+    "@typechain/hardhat": "^9.1.0",
     "canvas": "^2.11.2",
     "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "hardhat": "^2.22.3",
     "hardhat-deploy": "^0.12.4",
     "hardhat-deploy-ethers": "^0.4.2"
