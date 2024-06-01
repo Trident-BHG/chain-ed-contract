@@ -23,28 +23,28 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("Deploying Certificate on Sepolia and waiting for confirmations...");
 
   const args = [_linkAddress, _wrapperAddress];
-  // const certificateSepolia = await deploy("CertificateSepolia", {
-  //   from: deployer,
-  //   args: args,
-  //   waitConfirmations: network.config.blockConfirmations || 1,
-  //   log: true,
-  // });
+  const certificateSepolia = await deploy("CertificateSepolia", {
+    from: deployer,
+    args: args,
+    waitConfirmations: network.config.blockConfirmations || 1,
+    log: true,
+  });
 
-  // if (!certificateSepolia.newlyDeployed) {
-  //   log(
-  //     `Certificate on Sepolia already deployed at ${certificateSepolia.address}`
-  //   );
-  // } else {
-  //   log(
-  //     `Certificate on Sepolia newly deployed at ${certificateSepolia.address}`
-  //   );
-  // }
+  if (!certificateSepolia.newlyDeployed) {
+    log(
+      `Certificate on Sepolia already deployed at ${certificateSepolia.address}`
+    );
+  } else {
+    log(
+      `Certificate on Sepolia newly deployed at ${certificateSepolia.address}`
+    );
+  }
 
   if (
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
-    await verify("0xB3A8526A1116EaA76288F31f39bBaC72239A78A4", args);
+    await verify(certificateSepolia.address, args);
   }
 };
 
