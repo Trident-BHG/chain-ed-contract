@@ -108,17 +108,17 @@ This is an example of how to list things you need to use the software and how to
 
 #### Deployed Contracts
 
-Ethereum Sepolia
+**Ethereum Sepolia**
 
 - CertificateSepolia: [0xB3A8526A1116EaA76288F31f39bBaC72239A78A4](https://sepolia.etherscan.io/address/0xB3A8526A1116EaA76288F31f39bBaC72239A78A4)
 
-Arbitrum Sepolia
+**Arbitrum Sepolia**
 
-- Source Minter: [0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb](https://sepolia.etherscan.io/address/0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb)
-- Destination Minter:[0x5367990a2749e4008f7377ccb3a0f8c4aba90d52](https://sepolia.arbiscan.io/address/0x5367990a2749e4008f7377ccb3a0f8c4aba90d52)
-- Certificate.sol: [0x15571497160A656868b8044d3D3bCb8DA6c95490](https://sepolia.arbiscan.io/address/0x15571497160a656868b8044d3d3bcb8da6c95490)
+- SourceMinter: [0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb](https://sepolia.etherscan.io/address/0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb)
+- DestinationMinter:[0x5367990a2749e4008f7377ccb3a0f8c4aba90d52](https://sepolia.arbiscan.io/address/0x5367990a2749e4008f7377ccb3a0f8c4aba90d52)
+- Certificate: [0x15571497160A656868b8044d3D3bCb8DA6c95490](https://sepolia.arbiscan.io/address/0x15571497160a656868b8044d3d3bcb8da6c95490)
 
-Deployment Steps for NFT Creation Contracts(Cross Chain):
+**Deployment Steps for NFT Creation Contracts(Cross Chain):**
 
 1. Deploy Certificate.sol on destination Chain(ex: Arbitrum Sepolia
 
@@ -165,7 +165,7 @@ Deployment Steps for NFT Creation Contracts(Cross Chain):
    npx hardhat run scripts/mint-certificate-nft.js --network sepolia
    ```
 
-Important points for Debugging:
+**Important points for Debugging:**
 
 1. In case deployment of Certificate fails, try checking wrapper and link token address.
 2. In case VRFV2PlusWrapper reverts transaction on destination chain, try increasing callback gas limit.
@@ -175,11 +175,11 @@ Important points for Debugging:
    npx hardhat run scripts/set-callback-gas-limit.js --network arbitrum
    ```
 
-Deployment Steps for NFT Creation Contracts(on Sepolia, which is our main chain):
+**Deployment Steps for NFT Creation Contracts(on Sepolia, which is our main chain):**
 
 1. Deploy CertificateSepolia.sol on Ethereum Sepolia Testnet
 
-   - Add Link Address and Wrapper adderss for VRF2.5(Direct Funding Method) for Ethereum Sepolia. Get Supported networks here:
+   - Add Link Address and Wrapper adderss for VRF2.5(Direct Funding Method) for Ethereum Sepolia.
    - In .env file add the following values(Make sure to provide them correctly): SEPOLIA_VRF_LINK_ADDRESS, SEPOLIA_VRF_WRAPPER_ADDRESS
    - Run the following command to deploy:
 
