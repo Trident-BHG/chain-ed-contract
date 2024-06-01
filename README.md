@@ -76,8 +76,10 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   npm install npm@latest -g
   ```
-- RPC URL for Chain Network from Infura,Alchemy etc.
-- Get a free Pinata API key
+- Get RPC URL for Chain Network from any of below options:
+  - [Infura](https://www.infura.io/)
+  - [Alchemy](https://www.alchemy.com/)
+- Get a free [Pinata](https://www.pinata.cloud/) API key
 
 ### Installation
 
@@ -92,15 +94,29 @@ This is an example of how to list things you need to use the software and how to
 3. Enter your Pinata API and RPC URLs in `.env` file
    ```
    SEPOLIA_RPC_URL = "ENTER YOUR RPC URL"
+   ARBITRUM_RPC_URL = "ENTER YOUR RPC URL"
    ```
    ```
    SEPOLIA_PRIVATE_KEY = "ENTER YOUR METAMASK ACCOUNT PRIVATE KEY"
+   ARBITRUM_PRIVATE_KEY = "ENTER YOUR METAMASK ACCOUNT PRIVATE KEY"
    ```
    ```
-   PINATA_JWT_KEY = "ENTER YOUR API"
+   PINATA_JWT_KEY = "ENTER YOUR JWT KEY"
    ```
 
 ### Deploying Contracts
+
+#### Deployed Contracts
+
+Ethereum Sepolia
+
+- CertificateSepolia: [0xB3A8526A1116EaA76288F31f39bBaC72239A78A4](https://sepolia.etherscan.io/address/0xB3A8526A1116EaA76288F31f39bBaC72239A78A4)
+
+Arbitrum Sepolia
+
+- Source Minter: [0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb](https://sepolia.etherscan.io/address/0x700a33FEB78dAcE90c87e8C331177E4fB72B76Fb)
+- Destination Minter:[0x5367990a2749e4008f7377ccb3a0f8c4aba90d52](https://sepolia.arbiscan.io/address/0x5367990a2749e4008f7377ccb3a0f8c4aba90d52)
+- Certificate.sol: [0x15571497160A656868b8044d3D3bCb8DA6c95490](https://sepolia.arbiscan.io/address/0x15571497160a656868b8044d3d3bcb8da6c95490)
 
 Deployment Steps for NFT Creation Contracts(Cross Chain):
 
