@@ -106,6 +106,20 @@ This is an example of how to list things you need to use the software and how to
 
 ### Deploying Contracts
 
+_Ethereum Sepolia testnet is the base chain for this project. In that context, any interactions with smart contracts on other chains(destination chain) are deemed as cross chain transactions._
+
+**Description of Contracts**
+
+- **CertificateSepolia**: Handles minting of course certificate NFT on base chain i.e. Ethereum Sepolia.
+
+- **SourceMinter**: Used for cross chain NFT generation transactions originating from base chain i.e. Ethereum Sepolia.Makes use of Chainlink CCIP. Funded with native tokens to pay for Chainlink CCIP requests.
+
+- **DestinationMinter**: Generic smart contract, depolyed on chains apart from base chain to support Cross chain NFT generation. Makes use of Chainlink CCIP.
+
+- **Certificate**: Generic smart contract deployed on chains apart from base chain to support cross chain NFT generation. Makes use of Chainlink VRF 2.5(Direct Funding Method). Funded with LINK tokens to pay for VRF requests.
+
+_You can deploy DestinationMinter.sol and Certificate.sol on other CCIP and VRF2.5 supported chains to extend cross chain NFT generation._
+
 #### Deployed Contracts
 
 **Ethereum Sepolia**
